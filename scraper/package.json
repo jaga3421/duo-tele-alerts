@@ -1,0 +1,13 @@
+{
+  "name": "@tele-assistant/scraper",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b",
+    "scrape": "node dist/services/scraper/src/index.js"
+  },
+  "dependencies": {
+    "@tele-assistant/core": "*",
+    "playwright": "^1.38.0"
+  }
+}

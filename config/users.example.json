@@ -1,0 +1,9 @@
+{
+  "duolingo": [
+    {
+      "username": "example_username",
+      "lastStreak": 100,
+      "telegramUsername": "@your_tg_handle"
+    }
+  ]
+}

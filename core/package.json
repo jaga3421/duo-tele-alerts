@@ -1,0 +1,20 @@
+{
+  "name": "@tele-assistant/core",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "winston": "^3.10.0",
+    "dotenv": "^16.3.1",
+    "zod": "^3.21.4"
+  }
+}
