@@ -39,7 +39,7 @@ export class TelegramService {
         return false;
       }
 
-      const result = await response.json();
+      const result = await response.json() as { ok?: boolean; [key: string]: unknown };
       if (!result.ok) {
         logger.error('Telegram API error:', result);
         return false;
