@@ -53,6 +53,32 @@ export class TelegramService {
       return false;
     }
   }
+  async makeCall(username: string, message: string): Promise<boolean> {
+    if (!username) {
+      logger.warn('Skipping CallMeBot call: Username missing.');
+      return false;
+    }
+
+    // CallMeBot API: http://api.callmebot.com/start.php?user=@user&text=msg&lang=en-US-Standard-C
+    const encodedMessage = encodeURIComponent(message);
+    const url = `http://api.callmebot.com/start.php?user=${username}&text=${encodedMessage}&lang=en-US-Standard-C`;
+
+    try {
+      logger.info(`Initiating CallMeBot call to ${username}...`);
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        logger.error(`CallMeBot API failed: ${response.status} ${response.statusText}`);
+        return false;
+      }
+
+      logger.info('CallMeBot request sent successfully.');
+      return true;
+    } catch (error) {
+      logger.error('Error initiating CallMeBot call:', error);
+      return false;
+    }
+  }
 }
 
 export const telegram = new TelegramService();

@@ -80,6 +80,28 @@ async function main() {
       
       console.log(`Sending alert for ${tgUser}...`);
       await telegram.sendMessage(message);
+
+      // CallMeBot Logic
+      // Check schedule from env (passed from GitHub Actions)
+      const scheduleCron = process.env.SCHEDULE_CRON;
+      
+      // Call logic:
+      // 1. Manual run (scheduleCron is undefined) -> CALL
+      // 2. 11:30 PM run (scheduleCron == '0 18 * * *') -> CALL
+      // 3. 11:00 PM run (scheduleCron == '30 17 * * *') -> SKIP
+      
+      const isManualRun = !scheduleCron;
+      const isLateRun = scheduleCron === '0 18 * * *';
+      const shouldCall = isManualRun || isLateRun;
+
+      if (userConfig?.makeCall && shouldCall) {
+        // Updated message per user request
+        const callMessage = 'Streak is incomplete, please complete duo.';
+        console.log(`Initiating CallMeBot call for ${tgUser} (Schedule: ${scheduleCron || 'Manual'})...`);
+        await telegram.makeCall(rawTgUser, callMessage);
+      } else if (userConfig?.makeCall) {
+         console.log(`Skipping call for ${tgUser} (Schedule: ${scheduleCron}). Rule: Only call on 11:30 PM run.`);
+      }
     }
   }
 }

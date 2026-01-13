@@ -2,7 +2,7 @@ import { logger } from '../../../packages/core/src/index.js';
 import { DuolingoScraper } from './tasks/DuolingoScraper.js';
 import fs from 'fs';
 import path from 'path';
-import { telegram } from '../../../packages/core/src/index.js';
+import { telegram, caller } from '../../../packages/core/src/index.js';
 
 const scrapers: Record<string, any> = {
   duolingo: new DuolingoScraper(),
@@ -71,6 +71,7 @@ async function main() {
   for (const result of results) {
     if (result.completedToday === false) {
       const userConfig = targets.find((t: any) => t.username === result.username);
+      console.log('DEBUG: userConfig', JSON.stringify(userConfig));
       const rawTgUser = userConfig?.telegramUsername || result.username;
       // Escape underscores for Markdown
       const tgUser = rawTgUser.replace(/_/g, '\\_');
@@ -80,6 +81,14 @@ async function main() {
       
       console.log(`Sending alert for ${tgUser}...`);
       await telegram.sendMessage(message);
+
+      // Call Logic
+      if (userConfig?.makeCall && userConfig?.phoneNumber) {
+        // Use configured number or generic message
+        const callMessage = `Alert. Duolingo streak for ${result.username} is incomplete. Streak is ${result.streak}.`;
+        console.log(`Initiating call for ${userConfig.phoneNumber}...`);
+        await caller.makeCall(userConfig.phoneNumber, callMessage);
+      }
     }
   }
 }

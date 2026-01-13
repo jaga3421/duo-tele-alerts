@@ -14,8 +14,8 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "winston": "^3.10.0",
     "dotenv": "^16.3.1",
+    "winston": "^3.10.0",
     "zod": "^3.21.4"
   }
 }
