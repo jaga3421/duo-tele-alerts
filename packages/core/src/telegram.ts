@@ -61,7 +61,7 @@ export class TelegramService {
 
     // CallMeBot API: http://api.callmebot.com/start.php?user=@user&text=msg&lang=en-US-Standard-C
     const encodedMessage = encodeURIComponent(message);
-    const url = `http://api.callmebot.com/start.php?user=${username}&text=${encodedMessage}&lang=en-US-Standard-C`;
+    const url = `http://api.callmebot.com/start.php?user=${username}&text=${encodedMessage}&lang=en-US-Standard-C&cc=no`;
 
     try {
       logger.info(`Initiating CallMeBot call to ${username}...`);
